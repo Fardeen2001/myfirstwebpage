@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Add courses</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-info">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#">Features</a>
+                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link disabled">Disabled</a>
+              </div>
+            </div>
+          </nav>
+    </header>
+    <div class="container mt-5 col-6">
+
+        <main>
+            <div class="input-group mb-3">
+                <input id="inputtext" type="text" class="form-control" placeholder="Add Chapters" aria-label="Add Chapters" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                    <button id="button-addon2" class="btn btn-primary btn-sm" type="button">Add</button>
+                </div>
+            </div>
+            <ul class="list-group" id="parentlist">
+                <li class="list-group-item d-flex justify-content-between" placeholder="Add chapter">
+                   <h3 class="flex-grow-1">
+                    Add Chapters 
+                   </h3> 
+                    <button  type="button" class="btn btn-warning mx-3" onclick="editChapter(this)">Edit</button>
+                    <button type="button" class="btn btn-danger" onclick="removeChapter(this)">Remove</button> </li>
+              </ul>
+        </main>
+    </div>
+    <script>
+        let addbtn=document.getElementById('button-addon2');
+        addbtn.addEventListener('click', addChapter)
+        let parentlist = document.getElementById("parentlist")
+        function addChapter(e){
+            if(parentlist.children[0].className == "empty"){
+                parentlist.children[0].remove();
+            }
+            let currentInput =document.getElementById("inputtext").value
+            let currentchaptername=currentInput;
+            let newli = document.createElement("li")
+            newli.className="list-group-item d-flex justify-content-between"
+            newli.innerHTML=`<h3 class="flex-grow-1">
+                    ${currentchaptername}
+                   </h3> 
+                    <button  type="button" class="btn btn-warning mx-3" onclick="editChapter(this)">Edit</button>
+                    <button type="button" class="btn btn-danger" onclick="removeChapter(this)">Remove</button>`
+            
+            parentlist.appendChild(newli)
+            
+        }
+        function removeChapter(currentelement){
+            currentelement.parentElement.remove()
+            let parentlist = document.getElementById("parentlist")
+            if(parentlist.children.length <= 0){
+               let newemptymsg = document.createElement('h3')
+               newemptymsg.classList.add("empty");
+               newemptymsg.textContent= "Nothing is here, please add something!!"
+               parentlist.appendChild(newemptymsg)
+
+            }
+
+        }
+        function editChapter(currentelement){
+        if(currentelement.textContent == "Done"){
+            currentelement.textContent="Edit"
+            let currentchapter = currentelement.previousElementSibling.value
+            let currentheading = document.createElement("h3")
+            currentheading.className="flex-grow-1"
+            currentheading.textContent=currentchapter;
+            currentelement.parentElement.replaceChild(currentheading, currentelement.previousElementSibling)
+        }
+        else{
+            currentelement.textContent="Done"
+            let newchapter = currentelement.previousElementSibling.textContent
+            let currinput = document.createElement("input")
+            currinput.type="text"
+            currinput.placeholder="edit chapter"
+            currinput.className="form-control"
+            currinput.value=newchapter;
+            currentelement.parentElement.replaceChild(currinput, currentelement.previousElementSibling)
+        }
+
+        }
+
+    </script>
+</body>
+</html>
